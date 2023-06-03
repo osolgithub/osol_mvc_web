@@ -1,0 +1,155 @@
+<?php
+$userDetails = $this->variables4Template['userDetails'];
+?>
+<section>
+						
+					
+	<div style="col s12 l5 offset-l2">
+		<h1 class="" itemprop="name">
+			<span>Login</span>
+		</h1>
+	</div><!-- class="col s12 l5 offset-l2  " -->		
+	
+	<br />
+   <h2 style="text-align:center;">PHP Login using Google Account</h2>
+   <br />
+   <div class="panel panel-default">
+   
+		<div class="panel-heading">Welcome User</div>
+		<div class="panel-body">
+			<img src="<?php echo  $userDetails["picture"];?>" class="img-responsive img-circle img-thumbnail" />
+			<h3><b>Name :</b> <?php echo  $userDetails['first_name'];?> <?php echo  $userDetails['last_name'];?></h3>
+			<h3><b>Email :</b> <?php echo  $userDetails['email'];?></h3>
+			<h3><a href="userInfo.php">User Info</h3>
+			<h3><a href="Account/logout">Logout</h3>
+		</div>
+   
+    
+   
+   </div>
+</section>
+<div class="row">
+            <div class="col s12 l12 xl12">
+                <ul class="collection with-header theme-text-colour" style="color: rgb(42, 8, 69);border-radius: 10px;">
+                    <li class="collection-header theme-colour gradient" style="background: -webkit-linear-gradient(40deg, rgb(42, 8, 69), rgb(100, 65, 165)); color: white;">
+                        <h4>Profile</h4>
+                    </li>
+                    <li class="collection-item">
+                        <div class="profile-view">
+                            <div class="profile-background">
+                                <a href="#!"><img class="circle" src="https://images.unsplash.com/photo-1551930139-1deb64d83adc?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=400&amp;q=60"></a>
+                                <a href="#!"><span class="white-text name"><i class="material-icons online-icon green-text">fiber_manual_record</i>John Doe</span></a>
+                                <a href="#!"><span class="white-text email">akshay.soni.8707@gmail.com</span></a>
+                            </div>
+                        </div>
+                        <div class="profile-content">
+                            <ul id="tabs-swipe-demo" class="tabs">
+                                <li class="tab col s2 "><a href="#test-swipe-1" class="theme-text-colour" style="color: rgb(42, 8, 69);">Timeline</a></li>
+                                <li class="tab col s2"><a class="theme-text-colour active" href="#test-swipe-2" style="color: rgb(42, 8, 69);">profile</a></li>
+                            <li class="indicator" style="left: 200px; right: 800px;"></li></ul>
+                            <!-- timeline start -->
+                            <div id="test-swipe-1" class="col s12" style="display: none;">
+                                <div class="row">
+                                    <div class="col s12">
+                                        <div class="card">
+                                            <div class="card-content theme-text-colour" style="color: rgb(42, 8, 69);">
+                                                <span class="card-title">John Doe</span>
+                                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Explicabo dolore eveniet quisquam omnis recusandae nihil, iure id vel aut tempore ab est nesciunt dolorum cum ad officia eum facilis veritatis!</p>
+                                            </div>
+                                            <div class="card-action">
+                                                <a href="#!"><i class="material-icons blue-text">thumb_up</i></a>
+                                                <a href="#!"><i class="material-icons blue-grey-text">chat_bubble</i></a>
+                                                <a href="#!"><i class="material-icons green-text">share</i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12">
+                                        <div class="card">
+                                            <div class="card-content theme-text-colour" style="color: rgb(42, 8, 69);">
+                                                <span class="card-title">John Doe</span>
+                                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Explicabo dolore eveniet quisquam omnis recusandae nihil, iure id vel aut tempore ab est nesciunt dolorum cum ad officia eum facilis veritatis! Lorem,
+                                                    ipsum dolor sit amet consectetur adipisicing elit. Quasi ipsam iure, repellendus modi quisquam voluptas iusto vero neque sint soluta et magnam quaerat nostrum laboriosam debitis voluptatem, doloribus
+                                                    quo enim.</p>
+                                            </div>
+                                            <div class="card-action">
+                                                <a href="#!"><i class="material-icons blue-text">thumb_up</i></a>
+                                                <a href="#!"><i class="material-icons blue-grey-text">chat_bubble</i></a>
+                                                <a href="#!"><i class="material-icons green-text">share</i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- timeline end -->
+                            <!-- profile-setting start -->
+                            <div id="test-swipe-2" class="col s12 active">
+                                <div class="row">
+                                    <form class="col s12">
+                                        <div class="row">
+                                            <div class="input-field col s12 m6">
+                                                <i class="material-icons prefix">person</i>
+                                                <input id="first_name-profile" type="text" class="validate">
+                                                <label for="first_name-profile">First Name</label>
+                                            </div>
+                                            <div class="input-field col s12 m6">
+                                                <i class="material-icons prefix">person</i>
+                                                <input id="last_name-profile" type="text" class="validate">
+                                                <label for="last_name-profile">Last Name</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s6 m4">
+                                                <i class="material-icons prefix">calendar_today</i>
+                                                <div class="modal datepicker-modal" id="modal-518bf1d4-dcc7-2570-2f96-b6c425d7775f" tabindex="0"><div class="modal-content datepicker-container"><div class="datepicker-date-display"><span class="year-text"></span><span class="date-text"></span></div><div class="datepicker-calendar-container"><div class="datepicker-calendar"></div><div class="datepicker-footer"><button class="btn-flat datepicker-clear waves-effect" style="visibility: hidden;" type="button"></button><div class="confirmation-btns"><button class="btn-flat datepicker-cancel waves-effect" type="button">Cancel</button><button class="btn-flat datepicker-done waves-effect" type="button">Ok</button></div></div></div></div></div><input type="text" class="datepicker">
+                                            </div>
+                                            <div class="input-field col s6 m4">
+                                                <div class="select-wrapper"><input class="select-dropdown dropdown-trigger" type="text" readonly="true" data-target="select-options-6c1f257a-e7d8-f644-3b0c-a0fc1493cc25"><ul id="select-options-6c1f257a-e7d8-f644-3b0c-a0fc1493cc25" class="dropdown-content select-dropdown multiple-select-dropdown" tabindex="0"><li id="select-options-6c1f257a-e7d8-f644-3b0c-a0fc1493cc250" tabindex="0" class="selected"><span><label><input type="checkbox" "=""><span>Science</span></label></span></li><li id="select-options-6c1f257a-e7d8-f644-3b0c-a0fc1493cc251" tabindex="0"><span><label><input type="checkbox" "=""><span>Commerce</span></label></span></li><li id="select-options-6c1f257a-e7d8-f644-3b0c-a0fc1493cc252" tabindex="0"><span><label><input type="checkbox" "=""><span>Arts</span></label></span></li></ul><svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg><select multiple="" tabindex="-1">
+                                                              <option value="1" selected="">Science</option>
+                                                              <option value="2">Commerce</option>
+                                                              <option value="3">Arts</option>
+                                                            </select></div>
+                                                <label>Stream</label>
+                                            </div>
+                                            <div class="file-field input-field col s12 m4">
+                                                <div class="btn theme-colour gradient" style="background: -webkit-linear-gradient(40deg, rgb(42, 8, 69), rgb(100, 65, 165)); color: white;">
+                                                    <span>File</span>
+                                                    <input type="file">
+                                                </div>
+                                                <div class="file-path-wrapper">
+                                                    <input class="file-path validate" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12 m6">
+                                                <i class="material-icons prefix">alternate_email</i>
+                                                <input id="email-profile" type="email" class="validate">
+                                                <label for="email-profile">Email</label>
+                                                <span class="helper-text" data-error="need a valid email" data-success="your email is safe with us">*mandatory</span>
+                                            </div>
+                                            <div class="input-field col s12 m6">
+                                                <i class="material-icons prefix">phone_iphone</i>
+                                                <input id="mobile-profile" type="text" class="validate">
+                                                <label for="mobile-profile">Mobile no.</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s4 right">
+                                                <button class="btn waves-effect waves-light theme-colour gradient" type="button" name="action" style="background: -webkit-linear-gradient(40deg, rgb(42, 8, 69), rgb(100, 65, 165)); color: white;">Submit
+                                                                <i class="material-icons right">send</i>
+                                                        </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- profile-setting end -->
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+		

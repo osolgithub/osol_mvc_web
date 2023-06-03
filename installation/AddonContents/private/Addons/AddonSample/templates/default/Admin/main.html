@@ -1,0 +1,9 @@
+<?php
+$this->addCSSLinkTag($this->getTemplateFileURLOfAddon("css/main.css")); // sample code to add JS file
+
+?>
+
+<img src="<?php echo $this->getTemplateFileURLOfAddon("images/sample.png","Basic");?>" /><br />
+This is Admin page of <br />
+<span class="osolMVCBasicAddonBold">__ADDON_NAME__ Addon </span><br />
+<?php echo $this->getAddonHelper()->prependWithTestFunction("Helper Test Success");?>

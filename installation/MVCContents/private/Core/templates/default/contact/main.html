@@ -1,0 +1,84 @@
+<section>
+						
+					
+	<div style="col s12 l5 offset-l2">
+		<h1 class="" itemprop="name">
+			<span>Contact Us</span>
+		</h1>
+		<span class="">Working hours: Mon-Sat 9am to 9pm</span>
+
+
+		<div id="osolmvc_form_validation_error_block" style="color:red">
+			<br>
+		</div>
+		<div  class="col s12 l5 offset-l2  ">
+		<!-- <form name="contactFormTest" id="contactFormTest" action="Contact?sa=32" method="post" >
+			<input type="submit" name="DSDSD" value="test Post" />
+		</form> -->
+        
+            <form name="contactForm" id="contactForm" action="contactus.php" method="post" enctype="multipart/form-data">
+              <div class="input-field">
+                <i class="material-icons prefix">email</i>
+                <input type="email" name="email" id="email" required>
+                <label for="email">Your Email</label>
+              </div>
+              <div class="input-field">
+                <i class="material-icons prefix">message</i>
+                <textarea name="message" id="message" class="materialize-textarea" cols="20" rows="20"  required></textarea>
+                <label for="message">Your Message</label>
+              </div>
+              <div class="input-field">
+                <i class="material-icons prefix">date_range</i>
+                <input name="date" type="text" id="date" class="datepicker">
+                <label for="date">Choose a date you would like to chat...</label>
+              </div>
+              <div class="input-field">
+                <p>Services required:</p>
+                <p>
+                  <label>
+                    <input name="contactFor[]" value="Mobile App Development" type="checkbox">
+                    <span>Mobile App Development</span>
+                  </label>
+                </p>
+                <p>
+                  <label>
+                    <input name="contactFor[]" value="Web Solutions" type="checkbox">
+                    <span>Web Solutions</span>
+                  </label>
+                </p>
+                
+                <!--captcha block -->
+                <div class="input-field right" >
+                  <input type="text" name="osolmvc_keystring" id="osolmvc_keystring" style="width:120px;"  required>            
+                  <label for="osolmvc_keystring">Enter security text</label>
+                </div>
+                <div class="valign-wrapper"  ><!--valign-wrapper to vetical center-->
+                    
+                    Security Text:&nbsp;
+                  <a href="javascript:refreshCaptcha()" >
+                    <i class=" tiny  material-icons">refresh</i>
+                  </a>
+                    <img id="osolCaptchaContactus" src="Contact/captcha">
+                </div> 
+                
+                <!--captcha block ends here -->  
+                Select file to upload(if any):
+                  <div id="dropContainer" class="indigo lighten-1 z-depth-5 white-text" style="text-align:center;border-radius:5px;height:80px;">
+                     <br />You may drop your file here or click "Choose File" button below
+                  </div>
+                <input type="file" name="fileToUpload" id="fileToUpload">
+              </div>
+              <div class="input-field center">
+                <button type="submit" id="contactSubmit"  class="btn waves-effect waves-light">Submit</button>
+              </div>
+            </form>
+		                
+		</div><!-- class="col s12 l5 offset-l2  " -->						
+	</div><!-- class="col s12 l5 offset-l2  " -->						
+</section>
+<?php 
+if($this->addPreloader)
+{
+	echo $this->getPreloaderHTML();
+}//if($this->addPreloader)
+?>

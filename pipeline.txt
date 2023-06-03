@@ -1,0 +1,380 @@
+## Misc
+27-05-2023
+Add OAuth Login in your app (eg: Facebook)
+1. create App and get credentials in [My Apps Page](https://developers.facebook.com/apps/?show_reminder=true)
+2. set fb login redirect url `Valid OAuth Redirect URIs` in [Under Products &gt;&gt; Facebook Login &gt;&gt; Settings] (https://developers.facebook.com/apps/191136896803848/fb-login/settings/) as <site>/Account/fbLoginRedirect' eg: http://localhost:80/pjt/PMUtilities/projectBase/PR11/Account/facebookLoginRedirect  or https://modestoffers.com/DEMOsites/OSOLMVC/Account/facebookLoginRedirect
+> PS : http://localhost redirects are automatically allowed while in development mode only and do not need to be added here.
+3. set credentials in config 
+4. add fb login library with composer `composer require facebook/graph-sdk`
+5. create `fbLoginHelper` class to get fb login link 
+6.  save fb login button images in account/images/ [button creater](https://developers.facebook.com/docs/facebook-login/web/login-button)
+7. add fb login link created with fb login helper in login.html
+9. add menthod AccountController::fbLoginRedirect, use fbLoginHelper::processFbResponseAfterSignin
+9. get user profile details in `fbLoginHelper`
+10. add if email not existing
+11. set $_SESSION['user_id]
+12. updateUserIdForSession
+13. redirect to Account/profile
+
+23-05-2023
+
+2. split templates into 2 sections
+	1. frontend
+	2. Admin
+	
+	Important Methods:
+		1. get file `from private/Core/templates/` : CoreParent::getTemplateMainSubFolderFullPath($fileName)
+			This is called in getCoreTemplateFullPath($fileName)
+			eg:
+```
+	protected function getCoreTemplateFullPath($fileName)
+	{
+		$templateMainSubFolder = $this->getTemplateMainSubFolder(get_called_class());
+		//$templateFile =  __DIR__."/../templates/default/".$templateMainSubFolder."/main.html";
+		$templateFile =  $this->getTemplateMainSubFolderFullPath($templateMainSubFolder."/".$fileName);
+		return $templateFile;
+	}//protected function getCoreTemplateFullPath($fileName)
+```			
+
+		another method that could come handy here is 
+		
+```
+	public function getPublicURL($fileName)
+	{
+		$siteBaseURL =  $this->getSiteConfig()
+							->getFullURL2Root();
+		return $siteBaseURL."public/".$fileName;
+	}//public function getPublicURL(fileName)
+```	
+
+
+		2. get files `from public/templates/` (ie css/JS/media etc)	 : CoreParent::getTemplateFileURL($scriptFile)
+			`eg: $this->getTemplateFileURL("js/cookieConsent.js");`
+			
+```
+	protected function getTemplateFileURL($scriptFile)
+	{
+		$siteConfig = $this->getSiteConfig();
+		return "public/templates/".$siteConfig->getFrontendTemplate()."/".$scriptFile;
+	}//protected function getTemplateFileURL($scriptFile)
+```	
+			
+Primarily 	files from public/templates/ is to be seperately called in admin files	
+
+So `ClassSiteConfig::getFrontendTemplate` method is modified
+
+```
+	public function getFrontendTemplate()
+	{
+		$templateFolder =  $this->siteSettings['frontendTemplate'];
+		$isadmin = $this->getCurrentViewIsAdmin();
+		if($isadmin)
+		{
+			$templateFolder =  $this->siteSettings['adminTemplate'];
+		}//if($isadmin)
+		return $templateFolder;//"default";
+	}//public function getFrontendTemplate()
+```
+
+-----------------------------				
+		
+1. Using Admin LTE for admin
+
+
+15-05-2023
+
+5. split installation into 2 phases, use **Simple XML** [read](https://www.w3schools.com/php/php_xml_simplexml_read.asp) and [Write](https://stackoverflow.com/a/143192)
+
+Read XML Code
+
+```
+//https://riptutorial.com/php/example/4585/read-a-xml-document-with-domdocument
+		$string = '<?xml version="1.0" encoding="UTF-8"?>
+					<osol_mvc_config>
+					<file_paths>
+						<projectRoot>
+							<![CDATA[projectBase/PR11]]>
+						</projectRoot>
+						<PRIVATE_FOLDER_ROOT>
+							<![CDATA[private]]>
+						</PRIVATE_FOLDER_ROOT>
+					</file_paths>
+					<file_urls>
+					</file_urls>
+					<database>
+					</database>
+					<email>
+					</email>	
+				</osol_mvc_config>';
+		$doc = new \DOMDocument();
+		$doc->loadXML($string);
+		$projectRootNode = $doc->getElementsByTagName('projectRoot');
+		$projectRootValue = $projectRootNode->item(0)->nodeValue;
+		echo "projectRoot is ".$projectRootValue;
+		$projectRootValue = $projectRootNode->item(0)->textContent;
+		echo "projectRoot is ".$projectRootValue;
+```
+
+Write XML Code
+
+```
+		$domDoc = new \DOMDocument;
+		$rootElt = $domDoc->createElement('osol_mvc_config');
+		$rootNode = $domDoc->appendChild($rootElt);
+
+		$filePathsNodeMade= $domDoc->createElement('file_paths');
+		$fileURLsNodeMade= $domDoc->createElement('file_urls');
+		$databaseNodeMade= $domDoc->createElement('database');
+		$emailNodeMade= $domDoc->createElement('email');
+		/****/
+		$attr = $domDoc->createAttribute('ah');
+		$attrVal = $domDoc->createTextNode('OK');
+		$attr->appendChild($attrVal);
+		$filePathsNodeMade->appendChild($attr);
+		$filePathsNode = $rootNode->appendChild($filePathsNodeMade);
+		$fileURLsNode = $rootNode->appendChild($fileURLsNodeMade);
+		$databaseNode = $rootNode->appendChild($databaseNodeMade);
+		$emailNode = $rootNode->appendChild($emailNodeMade);
+		/****/
+		$projectRootNodeMade= $domDoc->createElement('projectRoot');
+		$filePathsNode->appendChild($projectRootNodeMade);
+		$projectRootValueNode = $domDoc->createCDATASection('projectBase/PR11');		
+		$projectRootNodeMade->appendChild($projectRootValueNode);
+		/****/
+		$privateFolderRootNodeMade= $domDoc->createElement('PRIVATE_FOLDER_ROOT');
+		$filePathsNode->appendChild($privateFolderRootNodeMade);
+		$privateFolderRootValueNode = $domDoc->createCDATASection('private');		
+		$privateFolderRootNodeMade->appendChild($privateFolderRootValueNode);
+		/****/
+		//echo htmlentities($domDoc->saveXML());
+		/****/
+		Header('Content-type: text/xml');
+		echo $domDoc->saveXML(); 
+```
+4. appoint first user to group 4(super user)
+3. done create sequence diagram of ACLHelper::hasPermission
+2. done set SESSION['userDetails'] on login
+1. replace `redirectIfNotAuthorised($permissionsRequired = array())`
+with
+`$this->getCoreHelper("ACL")->hasPermission(["admin.core.publish"]);`
+
+## Impelement ACL
+
+Test code
+```
+		$ACLHelper = $this->getCoreHelper("ACL");
+		$user_id = 4;
+		$availableMinusDeclinedPermissions = $ACLHelper->getAvailableMinusDeclinedPermisions($user_id);
+		echo "LINE#:" . __LINE__ . " in file ". __FILE__ ."<pre>".print_r($availableMinusDeclinedPermissions,true)."</pre>";
+		$requiredPermissions =["admin.core.publish"];
+		$hasPermission = $ACLHelper->hasPermission($requiredPermissions,$user_id);
+		echo "LINE#:" . __LINE__ . " in file ". __FILE__ . "<br />".($hasPermission?"has Permission":"dont have Permission");
+```		
+Based on 
+1. <https://www.joomlashine.com/blog/all-you-need-to-know-about-joomla-access-control-list-acl.html>
+2. <https://docs.joomla.org/J3.x:Developing_an_MVC_Component/Adding_ACL>
+
+Show parts based on ACL
+```
+// Options button.
+    if (JFactory::getUser()->authorise('core.admin', 'com_helloworld')) 
+    {
+	JToolBarHelper::preferences('com_helloworld');
+    }
+```
+Restrict based on ACL (check for minimal privillege, eg: 'view' to redirect)
+```
+// Access check: is this user allowed to access the backend of this component?
+if (!JFactory::getUser()->authorise('core.manage', 'com_helloworld')) 
+{
+	throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+}
+```
+
+15-05-2023
+
+Till 28-03-2023 commit, there was no ACL. Started adding ACL from 12-05-2023 commit 
+
+## Maintain methods  `redirectIfNotLoggedIn` and `redirectIfNotAuthorised` in DefaultController
+## Move the functionalities of following methods from GoogleLoginHelper to AccountHelper
+
+1. public function getUserDetailsWithId($userId) //replaced with AccountHelper::getUserRecordWithId($userId)
+2. public function getUserDetails()//replaced with AccountHelper::getUserDetailsWithSessionVar();
+3. public function showUserProfile($templatePath)// not required it seems
+4. private function updateLastVisitedTime($userId) done
+5. public function logout() done
+6. public function checkUserLoginStatus($userDetails)
+7. private function **getUserRecord($data)** which inserts required if user is not already in DB
+
+## Move account related methods to AccountHelper from GoogleLoginHelper
+1. in AccountView $this->getGoogleLoginHelper()
+															->initialize()
+															->getUserDetails();
+
+		Done.
+2. 	In GoogleLoginHelper 														
+## Working on [ACL](#acl)
+Default Groups
+==============
+1. public/guest group id is 0
+2. registered & logged in user 1
+3. special user level 1 most privilleged among Users but below admins
+ whatever new roles created for registered users will be added to this group
+4. special user level 2 less privilleged among Users
+
+5. Admin user level1 most privilleged among Admins.Super Users: Super Users have complete administrative access to your site. They have access to and can change every aspect of the site.
+whatever new roles created for admins will be added to this group
+6. Admin user level2 less privilleged among Admins
+
+
+Admins
+======
+WordPress has six pre-defined roles: Super Admin, Administrator, Editor, Author, Contributor and Subscriber
+1. Super admin
+
+admin permissions
+-----------------
+admin.core.view
+admin.core.add
+admin.core.publish
+admin.core.edit
+admin.core.delete
+
+repace all `redirectIfNotLoggedIn` with `redirectIfNotAuthorised` (DefaultController,ContactController)
+<https://www.sitepoint.com/role-based-access-control-in-php/>
+1.	installation/MVCContents/index.php
+2.	installation/MVCContents/private/Core/Controller/Admin/ContactController.php
+3.	installation/MVCContents/private/Core/Controller/Admin/DefaultController.php
+4.	installation/MVCContents/private/Core/Controller/DefaultController.php
+5.	installation/MVCContents/private/Core/Helper/ACLHelper.php
+6.	installation/MVCContents/private/Core/Helper/AccountHelper.php
+7.	installation/MVCContents/private/Core/Helper/GoogleLoginHelper.php
+8.	installation/MVCContents/private/Core/Helper/RequestVarHelper.php
+9.	installation/MVCContents/private/Core/Helper/SessionHandlerHelper.php
+
+### Tables
+
+1. `osol_mvc_acl_user_permissions` // contains permissions
+2. `osol_mvc_acl_user_groups`	// name of groups with specific permissions
+3. `osol_mvc_acl_group_permissions`	// permissions allowed for each group
+4. `osol_mvc_acl_user_2_group`// groups to which user belongs
+
+5. `osol_mvc_acl_user_declined_permissions`// pending for now
+6. `osol_mvc_acl_group_declined_permissions`// pending for now
+
+### ACLHelperClass
+
+**Special notes:**
+
+1. 1st user registered will be of group id 4(admin level1) to be set in 
+2. subsequest users will be of group id 1
+
+$aclHelper =  \OsolMVC\Core\Helper\ACLHelper::getInstance();
+public function checkUserHasPermission($user_id,$permission)
+	
+	1. get group of user from `osol_mvc_acl_user_2_group`
+	2. check if "admin level 1"(id 4), if yes allow any pages
+	3. check if "special user level 1" (id 2), if yes allow any user pages
+	4. get all permissions of the user (including those inheritted from parent group) from  `osol_mvc_acl_group_permissions` & `osol_mvc_acl_user_permissions`
+	5. check if user has permision required for the page  
+	6. check is individually declined for user from `osol_mvc_acl_user declined_permissions`
+	
+	if user group is inherited(only one level of inheritance is allowed, ie if parent_id cannot be of group having another parent_id)
+	8. check if permission defined for group in `osol_mvc_acl_group_declined_permissions`
+	 
+	
+### How login works
+
+1. AccountController::render() calls AccountController::profile()
+2. AccountController::profile() calls DefaultController::redirectIfNotAuthorised($adminPage = false, $permissionsRequired = array())
+
+ 
+11-02-2022
+## Create DevAssist Addon
+	1. all functionalities of quick file explorer
+		- Controller methods
+			1. home(display project folder)
+			2. createDevDownload
+			3. downloadDevDownload
+	2. download selected files only
+	3. enable doxy comments
+	
+03-02-2022
+## Create Legallive Plugin
+
+	1. create court petition
+	
+### Tools to user
+		
+- [HTMLDOCX](http://www.outsource-online.net/blog/2021/12/08/html-docx/)
+- [TinyMCE](http://www.outsource-online.net/blog/2021/12/09/tiny-mce-editor/)
+- [PHPWord](http://www.outsource-online.net/blog/2021/04/19/php-word/)
+```
+composer require phpoffice/phpword
+```
+
+		1. frontend 
+			1. home(dashboard) , links: 
+				1. RTI letter, 
+				2. Court Petition,
+				3. Trust Deed, 
+				4. Rent Deed
+			2. create(generated templates to be saved in uploads/Addons/{AddonName}/user_id folder)
+			3. list/manage
+			4. ie Controller methods
+				1. render(Dash board)
+				2. showDraftForm 
+					should  show both
+					1. createDraft
+					2. editDraft
+				3. submitDraftForm 
+					should  process both
+					1. insertDraft
+					2. updateDraft
+				4. listMyDrafts
+				5. deleteMyDraft
+				
+		2. database
+			$addonTablePrefix = strtolower($this->addon);
+			1. draft types(draft_type_id, draft_type, template_file_relative_path)
+			2. user drafts (user_draft_id,draft_type_id, user_draft_name,draft_file_relative_path)
+			
+		3. templates folder (private/Addons/{$addonName}/draftTemplates/draftType)
+		4. generated folder (uploads/Addons/{AddonName}/user_id/generatedDrafts))
+		
+02-02-2022
+<a name="acl"></a>
+## Creating ACL
+1.create tables
+	1. permissions (permission_id, permission name)
+	2. groups(group_id, group name)	
+	3. group permissions(group_permission_id, permission_id, group_id)	
+	4. individually declined permissions(declined_permission_id,user_id,permission_id)
+	5. user_2_group (user_2_group_id,user_id,group_id)
+2. create acl helper class
+ACLHelperClass
+public function check($permission,$userid)
+	1. get permision from permissions table
+	2. check is individually declined for user
+	3. get groups of user
+	4. check if permision is allowed for any of groups of user
+29-01-2022
+## Creating an addon stub
+1. **Create Addon**
+
+
+2. **Backup Addon**
+
+
+3. **Backup Addon**
+
+
+
+18-12-2021
+## To monitor
+http://sreelp/pjt/MyContributions/osolcontributions/quickfileexplorer/?folder_to_select=E%3A\projects\PMUtilities\MVCMaker\installation&datepickerFrom=&datepickerTo=&exclude_paths=cache%2Clog%2CThumbs.db%2Csvn%2Czip%2CprojectBase&search_only_if_matches=
+
+1. To add a new controller. add an entry to CoreRoutes.php
+2. download composer packages to private/Core/composer folder
+3. add config files
+4. lang files

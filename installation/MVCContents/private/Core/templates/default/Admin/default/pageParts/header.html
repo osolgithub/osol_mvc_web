@@ -1,0 +1,84 @@
+<?php
+$selectedLangClass = $this->getSelectedLangClass();
+
+/*$addonName =  $this->getController()
+                    ->getAddonNameFromController();
+$selectedLangClassOfAddon = $this->getSelectedLangClass($addonName);*/
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Admin <?php echo $this->getPageTitle();?></title>
+  <meta charset="utf-8">
+  <!--<base href="http://localhost/pjt/PMUtilities/projectBase/PR11/">-->
+  <base href="<?php echo OSOLMVC_URL_ROOT;?>">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+ 
+    <!--  Material I cons from Google Fonts. -->
+   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+ <nav> <!-- navbar content here  -->
+ 
+  <ul id="slide-out" class="sidenav">
+    <li><div class="user-view">
+      <div class="background">
+        <img src="<?php echo $this->getTemplateFileURL("images/office.jpg");?>">
+      </div>
+      <a href="#user"><img class="circle" src="<?php echo $this->getTemplateFileURL("images/yuna.jpg");?>"></a>
+      <a href="#name"><span class="white-text name">John Doe</span></a>
+      <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+    </div></li>
+    <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+    <li><a href="Contact"><?php echo $selectedLangClass->getLangText('CONTACT_US'); ?></a></li>
+    <li><a href="Admin/Contact"><?php echo $selectedLangClass->getLangText('CONTACT_US'); ?> Admin</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="subheader">Subheader</a></li>
+    <li><a class="waves-effect" href="Account">Account</a></li>
+    <li><a class="waves-effect" href="Admin/Account">Account Admin</a></li>
+    <li><a class="waves-effect" href="ACL">ACL</a></li>
+    <li><a class="waves-effect" href="Admin/ACL">ACL Admin</a></li>
+    <li><a class="waves-effect" href="Admin">Admin</a></li>
+    <?php
+      // modules of Addons
+	  // this method is in \OsolMVC\Core\View\DefaultView
+      echo $this->getAllModuleLinks();
+    ?>
+  </ul>
+   
+   
+            <!--<ul class="right hide-on-med-and-down">
+      <li><a href="#!">First Sidebar Link</a></li>
+      <li><a href="#!">Second Sidebar Link</a></li>
+      <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+      <ul id='dropdown1' class='dropdown-content'>
+        <li><a href="#!">First</a></li>
+        <li><a href="#!">Second</a></li>
+        <li><a href="#!">Third</a></li>
+        <li><a href="#!">Fourth</a></li>
+      </ul>
+    </ul>-->
+   
+  <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+  </nav>
+<div class="container">
+<?php
+$messages =  $this->getMessage();
+if(count($messages) > 0)
+{
+	foreach($messages as $message)
+	{
+		if(isset($message['message']) && $message['message'] != "")
+		{
+		?>
+		<div class="osolMVCMessageDiv<?php echo $message['message_type'];?>">
+			<?php echo $message['message'];?>
+		</div>
+		<?php
+		}//if(isset($message['message']) && $message['message'] != "")
+	}//foreach($messages as $message)
+}//if(count($messages) > 0)
+?>

@@ -1,0 +1,36 @@
+/* special class for posistioning preloader in the center */
+    .loader {
+        position: absolute;
+        margin: auto;
+        top: 50vh;
+        bottom: 50vh;
+        left: 0;
+        right: 0;
+        }
+    @media screen and (max-width: 670px){
+      header{
+        min-height: 500px;
+      }
+    }
+
+    .customPreLoader {
+      border-top: 16px solid #00e676;
+      border-bottom: 16px solid #40c4ff;      
+      /* border-top: 16px solid blue;
+      border-bottom: 16px solid red;      
+      border-right: 16px solid green;
+      border-left: 16px solid pink; */
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      animation: custom-preloader-spin 2s linear infinite;
+      margin:auto;
+    }
+    #preloaderModalContent{
+      text-align:center;
+    }
+
+    @keyframes custom-preloader-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }

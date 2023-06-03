@@ -1,0 +1,1 @@
+console.log("js in __ADDON_NAME__ Admin")

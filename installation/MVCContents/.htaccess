@@ -1,0 +1,17 @@
+RewriteEngine On
+RewriteBase __PROJECT_ROOT_URI__
+
+#RewriteCond %{REQUEST_URI}  !(assets|views/templates|images) [NC]
+
+
+
+#seperate rule for 'POST' methods
+RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_METHOD} !POST
+#RewriteCond %{THE_REQUEST} ^POST
+RewriteRule ^(.*)$ index.php?redirect_to=$1 [L,NC]
+#RewriteRule ^(.*)$ index.php?redirect_to=$1 [L,R=307]
+# L  (last - stop processing rules)
+# NC (case insensitive). Needs for getting $_POST variables
+# R (temporary redirect to new URL)
+# https://itqna.net/questions/4951/what-does-l-r-nc-mean-htaccess

@@ -1,0 +1,148 @@
+<?php
+$loginButtonURL = $this->getTemplateFileURL("images/sign-in-with-google.png");
+$googleLoginForAndroid = "javascript:OSOLMVCAndroidJSInterface.osolmvcGoogleLogin()";
+?>
+<center>
+<a href="<?php echo $googleLoginForAndroid;?>"><img class="circle" src="<?php echo $loginButtonURL;?>"></a>
+</center>
+
+
+   
+   <div class="panel panel-default">
+	<div align="center"><?php echo $this->variables4Template['facebook_login_button'];  ?></div>;
+   </div>
+<div style="display:none" >   
+	<button type="button" id="btnTestVerifyGoogleIdToken" onclick="testVerifyGoogleIdToken()"  class="btn waves-effect waves-light" >Test Verify Google Id Token</button>
+	<textarea id="txtGoogleIdToken2Test"></textarea>
+</div>
+<!-- Modal Structure -->
+<div id="preloaderModal" class="modal">
+   <div id="modalContent" class="modal-content">
+       <h4 id="preloaderModalHeader">Modal Header</h4>
+       <div id="preloaderModalContent">A bunch of text</div>
+ 
+   </div>
+   <div id="preloaderModalFooter" class="modal-footer">
+       <button type="button" id="upkarTopicChoseParent" onclick="upkarTopicController.chooseAmongParentAndChild('parent')"  class="btn waves-effect waves-light">Parent</button>
+       <button type="button" id="upkarTopicChoseChild" onclick="upkarTopicController.chooseAmongParentAndChild('child')"  class="btn waves-effect waves-light">Child</button>
+       <a href="javascript:void(0)" id="modalCloseButton" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+   </div>
+ </div>
+ <script>
+var upkarClsCommonUtils;
+var clsCommonUtils = {
+    inst:null,
+    getInstance:function()
+    {
+        if(this.inst == null)
+        {
+            this.inst = new classOSOLMVCommonUtils();
+            this.inst.initModal();
+        }//if(this.inst == null)
+        return this.inst ;
+    }//getInstance:funciion()
+}//var clsCommonUtils = {
+var googleIdToken2Test = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImU4NzMyZGIwNjI4NzUxNTU1NjIxM2I4MGFjYmNmZDA4Y2ZiMzAyYTkiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIxMDEzMzA2Mzc4NDMzLWx2aWJybXRtYmwzc2VraTVrcWE2NGoyb3FybGdubTBkLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiMTAxMzMwNjM3ODQzMy0yZW12ZmRvNWN2cTVrY2dxYXEyc2ZoZXQ4YzViMmpxcC5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjExMDY1NzQ4NDM3NTE3MzYxNjc0MyIsImVtYWlsIjoib3V0c291cmNlb2xAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJPdXRzb3VyY2UgT25saW5lIiwicGljdHVyZSI6Imh0dHBzOi8vbGg2Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tNjdCNTktTW1zSTQvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjbWJITjVOTzQ5dnJ5WERpUnc1Ql9NWElhNlZSUS9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiT3V0c291cmNlIiwiZmFtaWx5X25hbWUiOiJPbmxpbmUiLCJsb2NhbGUiOiJlbiIsImlhdCI6MTYxNDkyNjI0MSwiZXhwIjoxNjE0OTI5ODQxfQ.STZg3f0c4T0VanPMqlc1V4V5TTWSx9fsh1bhXPghgI-BoaGpQbMVphL5_8TxJxQi6UuZGKhN8WT--YyfMzIB0MFA7aadOXv0gUQVQUgjS7VkardOWklb00urjeqPp2xALE9Iyqpxz0TBX8ftEW3As5vHZ8TK8YRG2K5LWtRXjy6__wkruFYJAziMKFQf4rWJIYELsSsPevZSpZRVy1CIBJux84Hl1_DCxyR-4SNiLTLN0SuCYuofuh9Ose_iAsy5-ZLpUQErwEyPQFUwCEV5bDwsAj5BZKj07rLpk2VMpW2Y1rYM7mjAYKNvqeh2iAUMouSrC68vSpj9nBG4gtUUHQ";
+function testVerifyGoogleIdToken()
+{
+    googleIdToken2Test = document.getElementById("txtGoogleIdToken2Test").value;
+	console.log("googleIdToken2Test is " + googleIdToken2Test);
+    verifyGoogleIdToken(googleIdToken2Test);
+}//function testVerifyGoogleIdToken()
+function showGoogleIdToken(googleIdToken)
+{
+	console.log("googleIdToken is "+ googleIdToken); 
+	document.getElementById("txtGoogleIdToken2Test").value = googleIdToken;
+	return "function showGoogleIdToken(googleIdToken) Called";
+	
+}//function showGoogleIdToken(googleIdToken)
+function verifyGoogleIdToken(googleIdToken)
+{
+	showGoogleIdToken(googleIdToken);
+    upkarClsCommonUtils = clsCommonUtils.getInstance();
+    console.log("modalInst opened");
+    upkarClsCommonUtils.showPreloader();
+	//let postURL = "php/bootstrap.php?upkarAction=submitLink";
+	let postURL = "Account/verifyGoogleIdToken";
+	let data2Send = {"googleIdToken":googleIdToken};
+	let formData = JSON.stringify(data2Send);
+	//console.log("formData is " + formData);
+
+	//console.log("googleIdToken is "+ googleIdToken); return;
+	//console.log("formData is "+ formData); ;
+	fetch(postURL, {
+		method: 'POST',
+		credentials: "include",
+		body: formData,
+		//,headers: new Headers({ "content-type": "application/multipart/form-data; charset=UTF-8" })
+		headers:new Headers({ "Content-Type" : "application/json" })// Set the request header i.e. which type of content you are sending
+	  })
+	  .then(responseObj => {
+
+		//this block is not redundant
+		let response = responseObj;
+		const contentType = response.headers.get("content-type");
+
+		//CODE BLOCK TO SEE CONTENT OF RESPONSE FROM SERVER
+		// SHOULD BE COMMENTED AFTER TESTEING OTHERWISE WON'T WORK IN LAST 'then' BLOCK
+		/* 
+		if (contentType && contentType.indexOf("application/json") !== -1) {
+		  return response.json().then(data => {
+			// process your JSON data further
+			console.log("JSON returned is " + data);
+		  });
+		} else {
+		  return response.text().then(text => {
+			// this is text, do something with it
+			console.log("text returned is " + text);
+		  });
+		} */
+
+		// this is required to get past a chrome bug
+		//https://stackoverflow.com/questions/47177053/strange-behaviour-of-php-session-start-when-javascript-fetch
+		console.log("response.status is "+ responseObj.status);//response.status is 200
+		if (responseObj.status !== 200) {
+		  
+			upkarClsCommonUtils.modalInst.close();
+		  M.toast({
+			html:
+			  "There was an error, please try again later (" +
+			  responseObj.status +
+			  ")",
+			displayLength: 2000,
+			classes:"red"
+		  });
+		  return null;
+		}//if (responseObj.status !== 200) 
+		return responseObj.json();
+	  })
+	  .then(response => {
+		//console.log('Success');
+		console.log('POST Success:', JSON.stringify(response));
+		
+		// DO REQUIRED ACTIONS HERE
+		if(!response)return null;// if status is not 200
+		
+		upkarClsCommonUtils.modalInst.close();
+		//{status:'success',message:'Successfully Added'}
+		//{status:'error',message:'Adding node failed'}
+		if (response.status === "error") {
+		  M.toast({ html: response.short_message, displayLength: 2000,classes:"red" });
+		  OSOLMVCAndroidJSInterface.osolmvcGoogleLoginFailed();
+		  return;
+		}
+		if (response.status === "success") {
+			window.location.href = response.redirect_url;
+
+		}
+		
+		 
+	  })
+	  //.then(response => response.json())
+	  .catch(error => {
+		console.error('Error:', (error));
+	  });
+	  console.log("function verifyGoogleIdToken(googleIdToken) ends");
+      return "{\"message\":\"function verifyGoogleIdToken(googleIdToken) Called\"}";
+}//function verifyGoogleIdToken(googleIdToken)
+</script>

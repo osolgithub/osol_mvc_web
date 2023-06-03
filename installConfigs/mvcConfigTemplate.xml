@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<osol_mvc_config>
+	<file_paths>
+		<projectRoot>
+			projectBase/PR11
+		</projectRoot>
+		<PRIVATE_FOLDER_ROOT>
+			private
+		</PRIVATE_FOLDER_ROOT>
+	</file_paths>
+	<file_urls>
+	</file_urls>
+	<database>
+	</database>
+	<email>
+	</email>	
+</osol_mvc_config>

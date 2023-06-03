@@ -1,0 +1,33 @@
+.profile-view {
+    position: relative;
+    padding: 0px;
+    height: 200px;
+    margin-bottom: 8px;
+    background-image: url('https://images.unsplash.com/photo-1566345984367-fa2ba5cedc17?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60');
+    background-size: cover;
+}
+
+.profile-view .circle {
+    display: block;
+}
+
+.profile-background>a>img {
+    height: 100px;
+    width: 100px;
+}
+
+.profile-view .profile-background {
+    background-size: contain;
+    position: absolute;
+    top: 30px;
+    left: 20px;
+}
+
+.profile-background>a {
+    display: block;
+}
+
+.profile-content {
+    height: 400px;
+    overflow-y: scroll;
+}
